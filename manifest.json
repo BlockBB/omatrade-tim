@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "questflow.omatrade",
+  "name": "Omatrade",
+  "version": "0.2.0",
+  "author": "Questflow",
+  "license": "MIT",
+  "description": "Your TradingView watchlist, trading news and Questflow positions in the bar.",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Omatrade",
+    "description": "TradingView watchlist, trading news, and positions across brokers, Hyperliquid and Polymarket.",
+    "category": "Information",
+    "aliases": [
+      "trade",
+      "signals",
+      "positions",
+      "questflow",
+      "omatrade"
+    ],
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "refreshIntervalSec": 60,
+      "notify": true
+    },
+    "schema": [
+      {
+        "key": "refreshIntervalSec",
+        "type": "integer",
+        "label": "Refresh interval (seconds)",
+        "min": 15,
+        "max": 1800,
+        "step": 15,
+        "defaultValue": 60
+      },
+      {
+        "key": "notify",
+        "type": "boolean",
+        "label": "Notify on new signals",
+        "defaultValue": true
+      }
+    ]
+  }
+}

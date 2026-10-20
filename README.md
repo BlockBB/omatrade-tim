@@ -1,0 +1,94 @@
+# Omatrade
+
+**Your TradingView watchlist, the trading news behind it, and your positions — in the
+[Omarchy](https://omarchy.org) bar.** Made by [Questflow](https://questflow.ai).
+
+| Watchlist | Signals | Positions |
+|---|---|---|
+| ![Watchlist](assets/screenshots/watchlist.png) | ![Signals](assets/screenshots/signals.png) | ![Positions](assets/screenshots/positions.png) |
+
+- **Watchlist** — live quotes for the symbols you follow. Search TradingView and add from the
+  panel, remove with one key, click a row to open its chart on TradingView.
+- **Signals** — the latest trading news for your watchlist, newest first. Breaking stories
+  arrive as a desktop notification.
+- **Positions** — brokers, Hyperliquid and Polymarket in one place, once you connect
+  Questflow. *Questflow sign-in is not live yet: connecting shows demo accounts, labelled
+  `DEMO DATA`.*
+
+Read-only by design. Omatrade never places orders, signs transactions or asks for a password.
+It follows your Omarchy theme and is keyboard-first.
+
+## Install
+
+```sh
+omarchy plugin add https://github.com/questflowai/omatrade --enable
+```
+
+Optionally put the CLI on your path:
+
+```sh
+ln -s ~/.config/omarchy/plugins/questflow.omatrade/bin/omatrade ~/.local/bin/omatrade
+```
+
+Requires Omarchy 4 and Python 3.11+ (standard library only, no dependencies).
+
+## Use
+
+Click the icon in the bar, or bind a key to `omarchy-shell questflow.omatrade toggle`.
+
+| Key | |
+|---|---|
+| `←` `→` / `1` `2` `3` | Watchlist · Signals · Positions |
+| `↑` `↓` | select |
+| `↵` | open chart / story / Questflow |
+| `a` or `+` | add a symbol (type, `↑` `↓`, `↵`; `esc` to cancel) |
+| `x` | remove the selected symbol |
+| `r` | refresh |
+
+IPC: `omarchy-shell questflow.omatrade watchlist|signals|positions|add|toggle|refresh`
+
+### CLI
+
+```sh
+omatrade                      # watchlist, news, positions
+omatrade tv search tencent    # find symbols on TradingView
+omatrade tv add HKEX:700 [--section Asia]
+omatrade tv remove 700
+omatrade tv import [file]     # a TradingView export (default: newest in ~/Downloads)
+omatrade news
+omatrade login | logout       # Questflow (demo accounts for now)
+omatrade summary --json       # everything the bar reads
+```
+
+### Bring your TradingView watchlist
+
+TradingView has no API for watchlists, and Omatrade will not read your browser's TradingView
+session. Export instead: in TradingView open the watchlist menu → **Export list…**, then run
+`omatrade tv import`. Importing replaces the current list. The list lives in
+`~/.config/omatrade/tradingview.txt`, in TradingView's own format.
+
+## How it works
+
+`bin/omatrade` owns the data and derives the palette from the current Omarchy theme; the
+plugin (`Service.qml`, `Panel.qml`) polls `omatrade summary --json` and draws it. Quotes are
+cached for 45 seconds and news for 5 minutes; when offline the last data stays on screen
+with a note.
+
+## Disclaimer
+
+Omatrade is not affiliated with, endorsed by or sponsored by TradingView. Quotes, symbol
+search and news come from TradingView's public web endpoints, which are unofficial,
+may be delayed, and may change or stop working at any time. Nothing shown is investment
+advice.
+
+## Uninstall
+
+```sh
+omarchy plugin remove questflow.omatrade
+rm -rf ~/.local/state/omatrade ~/.config/omatrade ~/.local/bin/omatrade
+```
+
+## License
+
+MIT © 2026 Questflow. `Sparkline.qml` is from [Omacharts](https://github.com/jorgemanrubia/omacharts),
+MIT © 2026 Jorge Manrubia — see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
