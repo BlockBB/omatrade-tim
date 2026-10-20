@@ -86,7 +86,7 @@ Item {
       _pendingSearch = query
       return
     }
-    searchProcess.command = [root.cli, "tv", "search", query, "--json"]
+    searchProcess.command = [root.cli, "tv", "search", "--json", "--", query]
     searchProcess.running = true
   }
 
@@ -100,7 +100,7 @@ Item {
   // Edits go through the CLI, which owns the file and pokes the bar to
   // refresh. The removal shows at once rather than a poll later.
   function addSymbol(symbol) {
-    edit.run([root.cli, "tv", "add", symbol])
+    edit.run([root.cli, "tv", "add", "--", symbol])
   }
 
   function removeSymbol(symbol) {
@@ -112,18 +112,18 @@ Item {
       copy.watchlist.sections = sections.filter(function (sec) { return sec.entries.length > 0 })
       data = copy
     }
-    edit.run([root.cli, "tv", "remove", symbol])
+    edit.run([root.cli, "tv", "remove", "--", symbol])
   }
 
   function connectQuestflow() { edit.run([root.cli, "login"]) }
   function disconnectQuestflow() { edit.run([root.cli, "logout"]) }
 
   function openTradingView(symbol) {
-    Quickshell.execDetached([root.cli, "tv", "open", symbol])
+    Quickshell.execDetached([root.cli, "tv", "open", "--", symbol])
   }
 
   function openUrl(url) {
-    Quickshell.execDetached([root.cli, "open", url])
+    Quickshell.execDetached([root.cli, "open", "--", url])
   }
 
   function openQuestflow() {
@@ -194,7 +194,7 @@ Item {
     running: false
     command: []
     property string query: ""
-    onStarted: query = command.length > 3 ? command[3] : ""
+    onStarted: query = command.length > 0 ? command[command.length - 1] : ""
     stdout: StdioCollector {
       waitForEnd: true
       onStreamFinished: {

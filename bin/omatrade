@@ -17,6 +17,7 @@ import json
 import math
 import os
 import random
+import re
 import shutil
 import subprocess
 import sys
@@ -101,6 +102,10 @@ def save_state(state):
 # (`EXCHANGE:SYMBOL` separated by commas, `###Name` opening a section), and
 # can be seeded from a TradingView export or edited symbol by symbol.
 
+# What a TradingView symbol can look like: NASDAQ:BRK.B, CME_MINI:NQ1!,
+# BINANCE:BTCUSDT.P. Anything else is not written to the list.
+SYMBOL_RE = re.compile(r"^[A-Z0-9_]+:[A-Z0-9_.!&/-]+$")
+
 TV_STARTER = """###Stocks,NASDAQ:NVDA,NASDAQ:TSLA,NASDAQ:QQQ,NASDAQ:COIN,AMEX:SPY,
 ###Crypto,BINANCE:BTCUSDT,BINANCE:ETHUSDT,KUCOIN:HYPEUSDT,
 ###Macro,TVC:DXY,CME_MINI:NQ1!"""
@@ -116,7 +121,7 @@ def parse_tv_list(text):
             current = {"name": token[3:].strip() or "Watchlist", "symbols": []}
             sections.append(current)
             continue
-        if ":" not in token or token.upper() in seen:
+        if not SYMBOL_RE.match(token.upper()) or token.upper() in seen:
             continue
         if current is None:
             current = {"name": "", "symbols": []}
@@ -220,7 +225,7 @@ def tv_search(text, limit=8):
         if not exchange or not ticker or row.get("type") == "bond":
             continue
         full = f"{exchange}:{ticker}".upper()
-        if full in seen:
+        if full in seen or not SYMBOL_RE.match(full):
             continue
         seen.add(full)
         out.append({
@@ -262,7 +267,7 @@ def tv_import(path):
 
 def tv_add(symbol, section=None):
     sym = symbol.upper()
-    if ":" not in sym:
+    if not SYMBOL_RE.match(sym):
         raise SystemExit("use EXCHANGE:SYMBOL, as TradingView writes it (e.g. NASDAQ:AAPL)")
     sections, _ = tv_sections()
     if any(sym in sec["symbols"] for sec in sections):
@@ -296,6 +301,14 @@ def tv_remove(symbol):
 # Trading news for what you watch: TradingView's headlines for each symbol on
 # the watchlist, merged, newest first. Stands in for Questflow signals until
 # the signal API exists.
+
+def safe_url(url):
+    """Only https links leave this program: a story link comes from a third
+    party, and xdg-open would hand any other scheme to whatever handles it."""
+    if isinstance(url, str) and urllib.parse.urlsplit(url).scheme == "https":
+        return url
+    return TV_ORIGIN + "/news/"
+
 
 def fetch_headlines(symbol):
     query = urllib.parse.urlencode({"client": "web", "lang": "en", "symbol": symbol})
@@ -336,7 +349,7 @@ def news(symbols):
             "published": item.get("published", 0),
             "urgency": item.get("urgency", 2),
             "symbols": tickers or [r.split(":")[-1] for r in related[:2]],
-            "url": TV_ORIGIN + story if story else item.get("link", TV_ORIGIN + "/news/"),
+            "url": safe_url(TV_ORIGIN + story if story and story.startswith("/") else item.get("link")),
         })
         if len(items) >= NEWS_ITEMS:
             break
@@ -610,7 +623,7 @@ def send_notification(item):
     # Detached: --wait holds the process until the notification is clicked or
     # dismissed, and the bar poll that sent it must not wait with it.
     script = 'choice=$("$@"); [ "$choice" = open ] && xdg-open "$OMATRADE_URL" >/dev/null 2>&1'
-    env = dict(os.environ, OMATRADE_URL=item["url"])
+    env = dict(os.environ, OMATRADE_URL=safe_url(item["url"]))
     subprocess.Popen(["sh", "-c", script, "notify"] + cmd, env=env,
                      stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
                      stderr=subprocess.DEVNULL, start_new_session=True)
@@ -754,7 +767,7 @@ def main(argv=None):
         return 0
     if cmd == "open":
         target = args.target
-        open_url(target if target.startswith("https://") else
+        open_url(target if safe_url(target) == target else
                  QUESTFLOW_URL + (f"/?q={urllib.parse.quote(target)}" if target else ""))
         return 0
 

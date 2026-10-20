@@ -74,6 +74,16 @@ plugin (`Service.qml`, `Panel.qml`) polls `omatrade summary --json` and draws it
 cached for 45 seconds and news for 5 minutes; when offline the last data stays on screen
 with a note.
 
+## Privacy and security
+
+- No account, password, API key or browser session is read or stored. Questflow sign-in,
+  when it ships, keeps its token in the system keyring.
+- To fetch quotes and news, the symbols on your watchlist are sent to TradingView, along with
+  your IP address. Nothing is sent to Questflow.
+- Only `https://` links are ever opened; text from news feeds is shown as plain text.
+- Plugins run unsandboxed in the Omarchy shell. `omarchy plugin update` shows the diff before
+  applying it — read it.
+
 ## Disclaimer
 
 Omatrade is not affiliated with, endorsed by or sponsored by TradingView. Quotes, symbol

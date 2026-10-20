@@ -336,6 +336,7 @@ Panel {
                   color: root.text
                 }
                 Text {
+                  textFormat: Text.PlainText
                   text: "Omatrade"
                   font.family: root.fontFamily
                   font.pixelSize: Style.space(14)
@@ -343,6 +344,7 @@ Panel {
                   color: root.text
                 }
                 Text {
+                  textFormat: Text.PlainText
                   text: "Powered by Questflow"
                   font.family: root.fontFamily
                   font.pixelSize: Style.space(11)
@@ -362,6 +364,7 @@ Panel {
               radius: Style.space(4)
               color: root.palette.tags.flat.fill
               Text {
+                textFormat: Text.PlainText
                 id: demoLabel
                 anchors.centerIn: parent
                 text: "DEMO DATA"
@@ -415,6 +418,7 @@ Panel {
               HoverHandler { id: addHover }
               TapHandler { onTapped: root.startAdding() }
               Text {
+                textFormat: Text.PlainText
                 anchors.centerIn: parent
                 text: "+"
                 font.family: root.fontFamily
@@ -449,6 +453,7 @@ Panel {
                 TapHandler { onTapped: root.showView(modelData.key) }
 
                 Text {
+                  textFormat: Text.PlainText
                   anchors.centerIn: parent
                   text: modelData.label
                   font.family: root.fontFamily
@@ -461,6 +466,7 @@ Panel {
           }
 
           Text {
+            textFormat: Text.PlainText
             Layout.fillWidth: true
             visible: root.service.lastError !== ""
             text: root.service.lastError
@@ -513,6 +519,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               text: "Cancel"
               font.family: root.fontFamily
               font.pixelSize: Style.space(11)
@@ -523,6 +530,7 @@ Panel {
           }
 
           Text {
+            textFormat: Text.PlainText
             Layout.fillWidth: true
             visible: root.adding && (root.service.searchError !== ""
               || (searchField.text.trim() !== "" && !root.service.searching && root.searchRows.length === 0))
@@ -547,6 +555,7 @@ Panel {
               color: root.text
             }
             Text {
+              textFormat: Text.PlainText
               Layout.fillWidth: true
               horizontalAlignment: Text.AlignHCenter
               text: "Connect your Questflow account"
@@ -556,6 +565,7 @@ Panel {
               color: root.text
             }
             Text {
+              textFormat: Text.PlainText
               Layout.fillWidth: true
               horizontalAlignment: Text.AlignHCenter
               wrapMode: Text.WordWrap
@@ -574,6 +584,7 @@ Panel {
               HoverHandler { id: connectHover }
               TapHandler { onTapped: root.service.connectQuestflow() }
               Text {
+                textFormat: Text.PlainText
                 id: connectLabel
                 anchors.centerIn: parent
                 text: "Connect Questflow"
@@ -584,6 +595,7 @@ Panel {
               }
             }
             Text {
+              textFormat: Text.PlainText
               Layout.fillWidth: true
               horizontalAlignment: Text.AlignHCenter
               wrapMode: Text.WordWrap
@@ -603,6 +615,7 @@ Panel {
             spacing: Style.space(3)
 
             Text {
+              textFormat: Text.PlainText
               text: "TOTAL EQUITY"
               font.family: root.fontFamily
               font.pixelSize: Style.space(10)
@@ -615,6 +628,7 @@ Panel {
               spacing: Style.space(10)
 
               Text {
+                textFormat: Text.PlainText
                 text: root.totals ? Model.formatMoney(root.totals.equity) : ""
                 font.family: root.fontFamily
                 font.pixelSize: Style.space(26)
@@ -632,6 +646,7 @@ Panel {
                 radius: Style.space(5)
                 color: tag.fill
                 Text {
+                  textFormat: Text.PlainText
                   id: dayLabel
                   anchors.centerIn: parent
                   text: root.totals
@@ -662,6 +677,7 @@ Panel {
           }
 
           Text {
+            textFormat: Text.PlainText
             Layout.fillWidth: true
             visible: !root.adding && root.rows.length === 0 && root.service.lastError === ""
               && root.view !== "positions"
@@ -718,6 +734,7 @@ Panel {
                       RowLayout {
                         spacing: Style.space(6)
                         Text {
+                          textFormat: Text.PlainText
                           text: modelData ? modelData.display : ""
                           font.family: root.fontFamily
                           font.pixelSize: Style.space(13)
@@ -725,6 +742,7 @@ Panel {
                           color: root.text
                         }
                         Text {
+                          textFormat: Text.PlainText
                           text: modelData ? modelData.exchange : ""
                           font.family: root.fontFamily
                           font.pixelSize: Style.space(9)
@@ -732,6 +750,7 @@ Panel {
                         }
                       }
                       Text {
+                        textFormat: Text.PlainText
                         Layout.fillWidth: true
                         elide: Text.ElideRight
                         text: modelData ? modelData.name : ""
@@ -741,12 +760,14 @@ Panel {
                       }
                     }
                     Text {
+                      textFormat: Text.PlainText
                       text: modelData ? modelData.type : ""
                       font.family: root.fontFamily
                       font.pixelSize: Style.space(10)
                       color: root.muted
                     }
                     Text {
+                      textFormat: Text.PlainText
                       text: "Add"
                       visible: index === root.searchIndex
                       font.family: root.fontFamily
@@ -772,6 +793,7 @@ Panel {
                   implicitHeight: modelData && modelData.header ? Style.space(26) : Style.space(40)
 
                   Text {
+                    textFormat: Text.PlainText
                     visible: !!modelData && !!modelData.header
                     anchors.left: parent.left
                     anchors.bottom: parent.bottom
@@ -818,6 +840,7 @@ Panel {
                         Layout.fillWidth: true
                         spacing: Style.space(6)
                         Text {
+                          textFormat: Text.PlainText
                           text: modelData && modelData.display ? modelData.display : ""
                           font.family: root.fontFamily
                           font.pixelSize: Style.space(13)
@@ -825,6 +848,7 @@ Panel {
                           color: root.text
                         }
                         Text {
+                          textFormat: Text.PlainText
                           Layout.fillWidth: true
                           elide: Text.ElideRight
                           text: modelData && modelData.exchange ? modelData.exchange : ""
@@ -834,6 +858,7 @@ Panel {
                         }
                       }
                       Text {
+                        textFormat: Text.PlainText
                         Layout.fillWidth: true
                         text: modelData && modelData.name ? modelData.name : ""
                         elide: Text.ElideRight
@@ -844,6 +869,7 @@ Panel {
                     }
 
                     Text {
+                      textFormat: Text.PlainText
                       text: modelData ? Model.formatPrice(modelData.last) : ""
                       font.family: root.fontFamily
                       font.pixelSize: Style.space(13)
@@ -858,6 +884,7 @@ Panel {
                       radius: Style.space(5)
                       color: tag.fill
                       Text {
+                        textFormat: Text.PlainText
                         id: watchPct
                         anchors.centerIn: parent
                         text: modelData ? Model.formatPercent(modelData.changePct) : ""
@@ -880,6 +907,7 @@ Panel {
                         visible: watchRow.lit
                       }
                       Text {
+                        textFormat: Text.PlainText
                         anchors.centerIn: parent
                         visible: watchRow.lit
                         text: "×"
@@ -943,6 +971,7 @@ Panel {
                         radius: Style.space(3)
                         color: root.palette.tags.down.fill
                         Text {
+                          textFormat: Text.PlainText
                           id: breakingLabel
                           anchors.centerIn: parent
                           text: "BREAKING"
@@ -953,6 +982,7 @@ Panel {
                         }
                       }
                       Text {
+                        textFormat: Text.PlainText
                         text: modelData && modelData.symbols ? modelData.symbols.slice(0, 3).join("  ") : ""
                         font.family: root.fontFamily
                         font.pixelSize: Style.space(10)
@@ -961,6 +991,7 @@ Panel {
                       }
                       Item { Layout.fillWidth: true }
                       Text {
+                        textFormat: Text.PlainText
                         text: modelData ? Model.ago(modelData.published, root.now) : ""
                         font.family: root.fontFamily
                         font.pixelSize: Style.space(10)
@@ -969,6 +1000,7 @@ Panel {
                     }
 
                     Text {
+                      textFormat: Text.PlainText
                       Layout.fillWidth: true
                       text: modelData ? modelData.title : ""
                       wrapMode: Text.WordWrap
@@ -981,6 +1013,7 @@ Panel {
                     }
 
                     Text {
+                      textFormat: Text.PlainText
                       text: modelData ? modelData.source : ""
                       font.family: root.fontFamily
                       font.pixelSize: Style.space(10)
@@ -1007,6 +1040,7 @@ Panel {
                     spacing: Style.space(6)
 
                     Text {
+                      textFormat: Text.PlainText
                       text: modelData && modelData.header ? modelData.name.toUpperCase() : ""
                       font.family: root.fontFamily
                       font.pixelSize: Style.space(10)
@@ -1015,6 +1049,7 @@ Panel {
                       color: root.muted
                     }
                     Text {
+                      textFormat: Text.PlainText
                       Layout.fillWidth: true
                       elide: Text.ElideRight
                       text: modelData && modelData.header ? modelData.label : ""
@@ -1024,12 +1059,14 @@ Panel {
                       opacity: 0.8
                     }
                     Text {
+                      textFormat: Text.PlainText
                       text: modelData && modelData.header ? Model.formatCompactMoney(modelData.equity) : ""
                       font.family: root.fontFamily
                       font.pixelSize: Style.space(10)
                       color: root.muted
                     }
                     Text {
+                      textFormat: Text.PlainText
                       text: modelData && modelData.header ? Model.formatPercent(modelData.dayPnlPct) : ""
                       font.family: root.fontFamily
                       font.pixelSize: Style.space(10)
@@ -1069,6 +1106,7 @@ Panel {
                       Layout.minimumWidth: 0
                       spacing: 0
                       Text {
+                        textFormat: Text.PlainText
                         Layout.fillWidth: true
                         text: modelData && modelData.title ? modelData.title : ""
                         elide: Text.ElideRight
@@ -1078,6 +1116,7 @@ Panel {
                         color: root.text
                       }
                       Text {
+                        textFormat: Text.PlainText
                         Layout.fillWidth: true
                         text: modelData && modelData.subtitle ? modelData.subtitle : ""
                         elide: Text.ElideRight
@@ -1102,6 +1141,7 @@ Panel {
                     ColumnLayout {
                       spacing: 0
                       Text {
+                        textFormat: Text.PlainText
                         Layout.alignment: Qt.AlignRight
                         text: modelData ? Model.formatMoney(modelData.value) : ""
                         font.family: root.fontFamily
@@ -1109,6 +1149,7 @@ Panel {
                         color: root.text
                       }
                       Text {
+                        textFormat: Text.PlainText
                         Layout.alignment: Qt.AlignRight
                         text: modelData ? Model.formatMoney(modelData.pnl, true) : ""
                         font.family: root.fontFamily
@@ -1124,6 +1165,7 @@ Panel {
                       radius: Style.space(5)
                       color: tag.fill
                       Text {
+                        textFormat: Text.PlainText
                         id: pctLabel
                         anchors.centerIn: parent
                         text: modelData ? Model.formatPercent(modelData.pnlPct) : ""
@@ -1147,6 +1189,7 @@ Panel {
           spacing: Style.space(6)
 
           Text {
+            textFormat: Text.PlainText
             Layout.fillWidth: true
             visible: root.view === "watchlist" && !root.adding && !!root.service.watchlist
               && (root.service.watchlist.source === "starter" || !!root.service.watchlist.error)
@@ -1160,6 +1203,7 @@ Panel {
           }
 
           Text {
+            textFormat: Text.PlainText
             Layout.fillWidth: true
             visible: root.view === "signals" && !!root.service.news && !!root.service.news.error
             text: root.service.news ? root.service.news.error : ""
@@ -1173,6 +1217,7 @@ Panel {
             Layout.fillWidth: true
 
             Text {
+              textFormat: Text.PlainText
               Layout.fillWidth: true
               horizontalAlignment: Text.AlignHCenter
               text: root.adding ? "↑/↓ choose    ↵ add    esc cancel"
@@ -1187,6 +1232,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: root.view === "positions" && root.service.connected
               text: "Disconnect"
               font.family: root.fontFamily
