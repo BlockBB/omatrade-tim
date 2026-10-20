@@ -13,8 +13,8 @@ Order of checks for each signal:
    never notify.
 2. Notifications switched off: nothing, not even critical. Off means off.
 3. Below the minimum tier: silent (still listed in the panel).
-4. Critical skips quiet hours and the daily cap. A liquidation warning at
-   3am is the one interruption worth having.
+4. Critical skips quiet hours and the daily cap, and does not count toward
+   it. A liquidation warning at 3am is the one interruption worth having.
 5. Quiet hours, then the daily cap, for everything else.
 
 Suppressed signals are recorded as seen: they stay unread in the panel but do
@@ -142,7 +142,7 @@ def decide(signal, settings, ledger, now_local, now_epoch):
             return False, "quiet_hours"
         if ledger.count_today(day) >= settings.daily_cap:
             return False, "daily_cap"
-    ledger.bump(day)
+        ledger.bump(day)
     return True, "notify"
 
 
