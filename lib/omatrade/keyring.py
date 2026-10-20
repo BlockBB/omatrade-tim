@@ -52,6 +52,11 @@ class Keyring:
         except KeyringUnavailable:
             return False
 
+    def probe(self):
+        """Talk to the Secret Service once, so a missing daemon or a locked
+        collection is found before the browser opens, not after."""
+        self.lookup({"application": "omatrade", "kind": "probe"})
+
     def _run(self, args, secret=None):
         try:
             return self._runner([self.tool()] + args, input=secret, capture_output=True,

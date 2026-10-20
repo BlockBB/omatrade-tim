@@ -338,7 +338,7 @@ class TokenManager:
 def login(config, client, tokens, *, opener=None, announce=None, timeout=300, clock=time.time):
     """Run the browser sign-in. `opener(url)` opens the browser (None: just
     announce the URL); `announce(url)` tells the user where to go."""
-    tokens.keyring.tool()  # fail closed before the browser opens
+    tokens.keyring.probe()  # fail closed before the browser opens
     verifier, challenge = make_pkce()
     state = make_state()
     with LoopbackReceiver() as receiver:
